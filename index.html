@@ -232,6 +232,76 @@
   .us-photos{ display:flex; gap:20px; justify-content:center; margin-top:32px; flex-wrap:wrap; }
   .us-photos .photo-box{ width:150px; }
 
+  /* ---------- extra life: sparkles, pollen, falling petals, floating hearts ---------- */
+  .sparkle{ position:absolute; border-radius:50%; background:#fff; pointer-events:none; animation:twinkle ease-in-out infinite; }
+  @keyframes twinkle{ 0%,100%{opacity:.15; transform:scale(0.6);} 50%{opacity:1; transform:scale(1.2);} }
+
+  .petal-fall{ position:absolute; top:-20px; width:9px; height:13px; border-radius:50% 0 50% 50%; pointer-events:none; animation:petalFall linear infinite; opacity:0.85; }
+  @keyframes petalFall{
+    0%{ transform:translate(0,0) rotate(0deg); opacity:0; }
+    8%{ opacity:.9; }
+    100%{ transform:translate(var(--drift,40px), 480px) rotate(360deg); opacity:0; }
+  }
+
+  .float-heart{ position:absolute; pointer-events:none; font-size:1rem; opacity:0; animation:heartFloat ease-in infinite; }
+  @keyframes heartFloat{
+    0%{ transform:translate(0,0) scale(0.7); opacity:0; }
+    12%{ opacity:.85; }
+    100%{ transform:translate(var(--hx,0px), -220px) scale(1.1); opacity:0; }
+  }
+
+  .float-note{ position:absolute; pointer-events:none; font-size:0.95rem; color:var(--gold); opacity:0; animation:noteFloat ease-in infinite; }
+  @keyframes noteFloat{
+    0%{ transform:translate(0,0) rotate(-8deg) scale(0.8); opacity:0; }
+    15%{ opacity:.8; }
+    100%{ transform:translate(var(--nx,0px), -120px) rotate(10deg) scale(1); opacity:0; }
+  }
+
+  /* ---------- moon halo + orbiting sparkle ---------- */
+  .moon{ overflow:visible; }
+  .moon-halo{ position:absolute; inset:-16px; border-radius:50%; background:radial-gradient(circle, rgba(231,195,107,0.4), transparent 70%); animation:haloPulse 4s ease-in-out infinite; pointer-events:none; z-index:-1; }
+  @keyframes haloPulse{ 0%,100%{ opacity:.5; transform:scale(1);} 50%{ opacity:1; transform:scale(1.18);} }
+  .moon-orbit{ position:absolute; inset:-22px; animation:orbitSpin 5s linear infinite; pointer-events:none; }
+  .moon-orbit span{ position:absolute; top:0; left:50%; width:3px; height:3px; margin-left:-1.5px; border-radius:50%; background:#fff; box-shadow:0 0 6px 2px rgba(255,255,255,0.85); }
+  @keyframes orbitSpin{ from{ transform:rotate(0deg);} to{ transform:rotate(360deg);} }
+
+  /* ---------- floral flourish on panels + titles ---------- */
+  .panel{ animation:panelGlow 6s ease-in-out infinite; }
+  @keyframes panelGlow{ 0%,100%{ box-shadow:0 24px 50px rgba(0,0,0,0.45);} 50%{ box-shadow:0 24px 60px rgba(183,156,219,0.28);} }
+  .panel::before{
+    content:'🌸'; position:absolute; top:14px; right:22px; font-size:1.25rem; opacity:.7;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,0.35)); animation:sway 4s ease-in-out infinite; pointer-events:none;
+  }
+  .panel-title::after{
+    content:'✦ ❀ ✦'; display:block; font-size:0.72rem; letter-spacing:5px; color:var(--gold); opacity:.65; margin-top:10px;
+  }
+
+  /* ---------- intro box petal corners ---------- */
+  .intro-content{ position:relative; }
+  .intro-content::before, .intro-content::after{
+    content:'🌸'; position:absolute; font-size:1.5rem; pointer-events:none; filter:drop-shadow(0 3px 5px rgba(120,90,20,0.3));
+  }
+  .intro-content::before{ top:-16px; left:-8px; transform:rotate(-18deg); }
+  .intro-content::after{ top:-16px; right:-8px; transform:rotate(18deg); }
+
+  /* ---------- message screen ambient glow ---------- */
+  .message-screen{ overflow:hidden; }
+  .message-glow{ position:absolute; width:280px; height:280px; border-radius:50%; filter:blur(60px); opacity:.32; pointer-events:none; animation:driftGlow 9s ease-in-out infinite alternate; }
+  @keyframes driftGlow{ from{ transform:translate(-16px,-8px) scale(1);} to{ transform:translate(18px,14px) scale(1.18);} }
+  .message-text, .message-icon, #continueBtn{ position:relative; z-index:1; }
+
+  /* ---------- music hero floating notes container ---------- */
+  .music-hero{ position:relative; overflow:visible; }
+  .music-decor{ position:absolute; inset:-10px; overflow:hidden; pointer-events:none; z-index:0; }
+  .band-photo, .vinyl-wrap{ position:relative; z-index:1; }
+
+  /* ---------- livelier hover states ---------- */
+  .cover{ transition:transform .25s ease, box-shadow .25s ease; }
+  .album-card:hover .cover{ transform:scale(1.06); box-shadow:0 16px 28px rgba(231,195,107,0.4); }
+  .photo-box, .side-photo{ transition:transform .25s ease, box-shadow .25s ease; }
+  .member-card:hover .photo-box{ transform:scale(1.05); box-shadow:0 12px 24px rgba(183,156,219,0.45); }
+  .side-photo:hover, .us-photos .photo-box:hover{ transform:scale(1.04); box-shadow:0 12px 22px rgba(183,156,219,0.4); }
+
   @media (max-width:640px){
     .menu-sides{ flex-direction:column; gap:18px; }
     .side-photo{ width:80px; height:80px; font-size:0.68rem; }
@@ -258,6 +328,8 @@
 
 <!-- 2. MESSAGE: black transition -->
 <section id="screen-message" class="screen message-screen">
+  <div class="message-glow" style="top:8%; left:-70px; background:var(--plum);"></div>
+  <div class="message-glow" style="bottom:6%; right:-70px; background:var(--gold); animation-delay:2s;"></div>
   <p class="message-text">¿Flores amarillas? Mmm... no, esas no son para ti.</p>
   <p class="message-text gold">A ti te voy a dar flores moradas 💜</p>
   <span class="message-icon">🌌</span>
@@ -267,7 +339,10 @@
 <!-- 3. MENU: space + purple garden -->
 <section id="screen-menu" class="screen menu-screen">
   <div class="menu-space">
-    <div class="moon"></div>
+    <div class="moon">
+      <div class="moon-halo"></div>
+      <div class="moon-orbit"><span></span></div>
+    </div>
     <h2 class="menu-title">Para ti, que eres tan especial 💜</h2>
   </div>
   <div class="menu-garden-area">
@@ -299,6 +374,7 @@
   <div class="panel">
     <button class="btn-back" data-target="menu">← Volver</button>
     <div class="music-hero">
+      <div class="music-decor" id="musicDecor"></div>
       <div class="band-photo" id="bandPhoto"><span>foto del grupo</span></div>
       <div class="vinyl-wrap"><div class="vinyl"></div><div class="vinyl-label"></div><div class="vinyl-hole"></div></div>
     </div>
@@ -514,9 +590,74 @@ Con todo mi corazón morado te lo doy a ti,</p>
       container.appendChild(cl);
     }
   }
-  createButterflies(document.getElementById('gardenYellow'), 4, ['#FFB84D','#FFDD57','#FFFFFF','#F6844A']);
-  createButterflies(document.getElementById('gardenPurple'), 4, ['#D98FB3','#B79CDB','#E7C36B']);
+  createButterflies(document.getElementById('gardenYellow'), 6, ['#FFB84D','#FFDD57','#FFFFFF','#F6844A']);
+  createButterflies(document.getElementById('gardenPurple'), 6, ['#D98FB3','#B79CDB','#E7C36B']);
   createClouds(document.getElementById('gardenYellow'), 3);
+
+  // ================= extra life: sparkles, falling petals, floating hearts & notes =================
+  function createSparkles(container, count, colors){
+    if(!container) return;
+    for(var i=0;i<count;i++){
+      var s = document.createElement('div');
+      s.className = 'sparkle';
+      var size = (2+Math.random()*2).toFixed(1);
+      s.style.width = size+'px';
+      s.style.height = size+'px';
+      s.style.left = (Math.random()*100)+'%';
+      s.style.top = (Math.random()*70)+'%';
+      s.style.background = colors[Math.floor(Math.random()*colors.length)];
+      s.style.animationDuration = (1.6+Math.random()*2.2).toFixed(2)+'s';
+      s.style.animationDelay = (Math.random()*3).toFixed(2)+'s';
+      container.appendChild(s);
+    }
+  }
+  createSparkles(document.getElementById('gardenYellow'), 16, ['#fff','#FFF3B0','#E7C36B']);
+  createSparkles(document.getElementById('gardenPurple'), 16, ['#fff','#EAE0F7','#E7C36B']);
+  createSparkles(document.querySelector('.menu-space'), 10, ['#fff','#E7C36B','#EAE0F7']);
+
+  function spawnFallingPetal(container, colors){
+    if(!container) return;
+    var p = document.createElement('div');
+    p.className = 'petal-fall';
+    p.style.left = (Math.random()*100)+'%';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.setProperty('--drift', (Math.random()*80-40)+'px');
+    p.style.animationDuration = (6+Math.random()*5)+'s';
+    container.appendChild(p);
+    setTimeout(function(){ p.remove(); }, 12000);
+  }
+  setInterval(function(){ spawnFallingPetal(document.getElementById('gardenYellow'), ['#FDCB4B','#FFE066','#FFF3B0']); }, 1300);
+  setInterval(function(){ spawnFallingPetal(document.getElementById('gardenPurple'), ['#B79CDB','#D98FB3','#EAE0F7']); }, 1300);
+
+  function spawnFloatHeart(container, xMin, xMax){
+    if(!container) return;
+    var h = document.createElement('span');
+    h.className = 'float-heart';
+    h.textContent = Math.random() < 0.55 ? '💜' : '✨';
+    h.style.left = (xMin + Math.random()*(xMax-xMin)) + '%';
+    h.style.bottom = '0';
+    h.style.setProperty('--hx', (Math.random()*60-30)+'px');
+    h.style.animationDuration = (4+Math.random()*3)+'s';
+    container.appendChild(h);
+    setTimeout(function(){ h.remove(); }, 8000);
+  }
+  var msgScreen = document.getElementById('screen-message');
+  setInterval(function(){ spawnFloatHeart(msgScreen, 12, 88); }, 850);
+
+  function spawnFloatNote(container){
+    if(!container) return;
+    var n = document.createElement('span');
+    n.className = 'float-note';
+    n.textContent = Math.random() < 0.5 ? '♪' : '♫';
+    n.style.left = (Math.random()*90+5) + '%';
+    n.style.bottom = '0';
+    n.style.setProperty('--nx', (Math.random()*50-25)+'px');
+    n.style.animationDuration = (3.5+Math.random()*2.5)+'s';
+    container.appendChild(n);
+    setTimeout(function(){ n.remove(); }, 6500);
+  }
+  var musicDecor = document.getElementById('musicDecor');
+  setInterval(function(){ spawnFloatNote(musicDecor); }, 700);
 
   function spawnShootingStar(){
     var container = document.querySelector('.menu-space');
